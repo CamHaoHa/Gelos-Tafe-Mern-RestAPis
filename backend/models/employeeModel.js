@@ -24,4 +24,4 @@ const employeeSchema = mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongule.module('Employee', employeeSchema)
+module.exports = mongoose.model('Employee', employeeSchema)
