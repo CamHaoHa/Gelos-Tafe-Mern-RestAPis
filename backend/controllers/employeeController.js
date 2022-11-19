@@ -84,11 +84,11 @@ if(user &&  (await bcrypt.compare(Password, user.Password)))
 
 const getMe = asyncHandler(async(req, res) =>
 {
-    const {_id, Empid, Username} = await Employee.findById(req.user.id) 
+    
     res.status(200).json({
-        id:_id,
-        Empid, 
-        Username
+        id:req.user._id,
+        Empid:req.user.Empid,
+        Username :req.user.Username
     })
 }
 )
