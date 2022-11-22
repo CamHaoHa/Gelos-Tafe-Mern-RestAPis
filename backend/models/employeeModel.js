@@ -3,21 +3,29 @@ const mongoose = require('mongoose')
 
 const employeeSchema = mongoose.Schema({
     "Empid": {
-        required: true,
         type: Number,
-        unique: true
+        unique: true,
+        
     },
 
     "Username": {
         type: String,
         required: [true, `please add a user name`],
-        unique: true
+        unique: true, 
+        lowercase: true,
+        trim: true
     } ,
 
     "Password": {
         type: String,
         required: [true, `please add a password`],
+        minlength:6
+    },
+    "roles": {
+        type: Number,
+        default: 0
     }
+
     
 },
 {

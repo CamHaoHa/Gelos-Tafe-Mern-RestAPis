@@ -19,7 +19,13 @@ const productSchema = mongoose.Schema({
     "Product_price": {
         type: Number,
         required: true
-    }
+    },
+
+    employee: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Employee',
+      },
 },
 {
     timestamps: true,

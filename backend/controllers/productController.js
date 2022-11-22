@@ -1,6 +1,7 @@
 const asyncHandler = require ('express-async-handler')
 
 const Product = require ('../models/productModel')
+const Employee = require ('../models/employeeModel')
 //@desc get all products
 //@route GET /api/products
 //@access Private
@@ -22,7 +23,8 @@ const setProduct = asyncHandler(async(req, res) => {
         ProductCode:req.body.ProductCode,
         ProductName : req.body.ProductName,
         ProductQuantity : req.body.ProductQuantity,
-        Product_price : req.body.Product_price
+        Product_price : req.body.Product_price,
+        employee:req.user.id //new code line for author
     })
     res.status(200).json(product)
 }
@@ -36,7 +38,20 @@ const updateProduct = asyncHandler(async(req, res) => {
         res.status(400)
         throw new Error(`product ${req.params.id} not found`)
     }
+    //for authorization
+    const admin = await Employee.findById(req.user.id)
+    console.log(admin.roles)
+    //check for user
+    if(admin.roles !== 1) {
+        res.status(401)
+        throw new Error('You are not admin, GET out')
+    }
 
+    // if(product.employee.toString() !== admin.id ) {
+    //     res.status(401)
+    //     throw new Error('User not authorised, you are not the admin, GET OUT')
+    // }
+    //
     const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
     })
@@ -54,8 +69,19 @@ const deleteProduct =asyncHandler(async(req, res) => {
         res.status(400)
         throw new Error(`product ${req.params.id} not found`)
     }
-    await Product.remove()
+    //for authorization
+    const admin = await Employee.findById(req.user.id)
+    console.log(admin.roles)
+    //check for admin roles
+    
+    if(admin.roles !== 1) {
+        res.status(401)
+        throw new Error('You are not admin, GET out')
+    }
+    
+    await product.remove()
     res.status(200).json({id: req.params.id})
+    
 }
 )
 module.exports ={

@@ -8,9 +8,9 @@ const Employee = require('../models/employeeModel')
 
 const registerUser = asyncHandler(async(req, res) =>
 {   
-    const { Empid, Username, Password} = req.body;
+    const {  Username, Password} = req.body;
     
-    if(!Empid || !Username || !Password) {
+    if(!Username || !Password) {
         res.status(400)
         
         throw new Error('Please enter username and password and empid')
@@ -29,7 +29,7 @@ const registerUser = asyncHandler(async(req, res) =>
 
     //creat user
     const user = await Employee.create({
-        Empid, 
+        
         Username,
         Password : hashedPassword
     })
@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async(req, res) =>
     {
         res.status(201).json({
             _id: user.id,
-            Empid: user.Empid,
+           
             Username : user.Username,
             token:generateToken(user._id)
 
