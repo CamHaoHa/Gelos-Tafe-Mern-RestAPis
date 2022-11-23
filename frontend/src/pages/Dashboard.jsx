@@ -12,9 +12,8 @@ function Dashboard() {
 
  const {user} = useSelector((state) => state.auth)
 
-const { products, isLoading, isError, message } = useSelector(
-  (state) => state.products
-)
+const { products, isLoading, isError, message } = useSelector((state) => state.products)
+
  useEffect(() => {
 
   if(isError) {
@@ -32,7 +31,7 @@ const { products, isLoading, isError, message } = useSelector(
   }
  }, [user, navigate, isError, message, dispatch])
 
- console.log(user)
+
 
 if(isLoading) {
   return <Spinner/>
@@ -48,8 +47,16 @@ return (
   <ProductForm />
 
   <section className='content'>
-        
-      </section>
+  {products.length > 0 ? (
+    <div className='products'>
+      {products.map((product) => (
+        <ProductItem key={product._id} product ={product} />
+      ))} 
+    </div>
+  ) : (
+  <h3> There are no products in the database </h3>
+  ) }
+  </section>
 </>
 )
 }
